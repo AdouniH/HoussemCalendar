@@ -16,7 +16,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+ApiInfo = openapi.Info(
+    title="Houssem API",
+    default_version='v0.0.1',
+    description="Api Calender",
+    contact=openapi.Contact(email="houssemadouni11@gmail.com"),
+    license=openapi.License(name="BSD License"),
+)
+
+schema_view = get_schema_view(
+   ApiInfo,
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
+    path(r'swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path(r'', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('auth/', include('auth.urls'))
+    path('auth/', include('authen.urls'))
 ]

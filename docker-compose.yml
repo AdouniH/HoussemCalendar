@@ -2,8 +2,9 @@ version: "3.3"
 
 services:
   web:
-    build: backend/
+    build: ./backend
     volumes:
-      - .:/mr_houssem
+      - ./backend/CalendarProject/CalendarProject:/mr_houssem/CalendarProject/CalendarProject
+      - ./backend/CalendarProject/authen:/mr_houssem/CalendarProject/authen
     ports:
       - "8000:8000"
