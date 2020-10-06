@@ -28,7 +28,7 @@ class TestRegisterView(APITestCase):
         self.assertGreaterEqual(len(response.data['token']), 2)
         self.assertEqual(User.objects.count(), 1)
 
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(url, user1, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
         response = self.client.post(url, user2, format='json')
