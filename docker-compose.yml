@@ -4,7 +4,6 @@ services:
   web:
     build: ./backend
     volumes:
-      - ./backend/CalendarProject/CalendarProject:/mr_houssem/CalendarProject/CalendarProject
-      - ./backend/CalendarProject/authen:/mr_houssem/CalendarProject/authen
+       - /home/houssem/Bureau/hello/db.sqlite3:/mr_houssem/CalendarProject/db.sqlite3
     ports:
       - "8000:8000"
