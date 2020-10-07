@@ -20,3 +20,24 @@ register_new_user = swagger_auto_schema(
         )
     }
 )
+
+
+get_token = swagger_auto_schema(
+    operation_summary="Récuperer le token key à partir du username et du password",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=['username', 'password'],
+        properties={
+            'username': openapi.Schema(type=openapi.TYPE_STRING, title="le nom d'utilisateur"),
+            'password': openapi.Schema(type=openapi.TYPE_STRING, title="le mot de passe"),
+        }
+    ),
+    responses={
+        status.HTTP_200_OK: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'token': openapi.Schema(type=openapi.TYPE_STRING, title='le token key')
+            }
+        )
+    }
+)
