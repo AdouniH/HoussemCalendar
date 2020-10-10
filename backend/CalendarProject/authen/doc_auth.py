@@ -69,3 +69,22 @@ create_account = swagger_auto_schema(
         )
     }
 )
+
+get_token_from_account = swagger_auto_schema(
+    operation_summary="get token from account",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=['code'],
+        properties={
+            'code': openapi.Schema(type=openapi.TYPE_STRING, title="le code"),
+        }
+    ),
+    responses={
+        status.HTTP_200_OK: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'token': openapi.Schema(type=openapi.TYPE_STRING, title='le token key')
+            }
+        )
+    }
+)

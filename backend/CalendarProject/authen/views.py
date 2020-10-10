@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from django.core.exceptions import ObjectDoesNotExist
 
 from authen.models import Account
 from authen.serializers import UserSerializer, AccountSerializer
@@ -86,3 +87,20 @@ class AccountView(APIView):
                 context["token"] = token.key
             return Response(context, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetTokenFromAccount(APIView):
+    @doc_auth.get_token_from_account
+    def post(self, request, format=None):
+        code = request.data["code"]
+
+        try:
+            account = Account.objects.get(code=code)
+        except ObjectDoesNotExist:
+            account = None
+
+        if account:
+            user = account.user
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key}, status=status.HTTP_200_OK)
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)

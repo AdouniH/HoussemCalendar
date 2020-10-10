@@ -43,7 +43,6 @@ class TestRegisterView(APITestCase):
         response = self.client.post(url, user2, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(User.objects.count(), 3)
-        response = self.client.get(url, user2, format='json')
 
 
 class TestGetTokenView(APITestCase):
@@ -120,3 +119,25 @@ class TestAccountView(APITestCase):
         self.assertEqual(Account.objects.count(), 1)
         self.assertEqual(Account.objects.all()[0].code, "mycode")
         self.assertGreaterEqual(len(response.data["token"]), 5)
+
+
+class TestAccountGetTokenView(APITestCase):
+    def setUp(self):
+        user = User.objects.create(username="hello")
+        user.set_password("world")
+        user.save()
+        account = Account.objects.create(user=user, code="code_100")
+        account.save()
+
+        self.tokenKey = Token.objects.get_or_create(user=account.user)[0].key
+
+    def test_post(self):
+        """
+        -> /auth/get_token_from_account
+        """
+        url = reverse('get_token_from_account')
+        context = {"code": "code_100"}
+
+        response = self.client.post(url, context, format='json')
+
+        self.assertEqual(response.data["token"], self.tokenKey)
