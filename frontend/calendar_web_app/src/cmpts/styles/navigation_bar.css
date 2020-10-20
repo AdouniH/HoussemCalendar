@@ -1,0 +1,16 @@
+
+.deconnexion{
+    list-style: none;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: row-reverse;
+    text-decoration: underline;
+}
+
+.dcnx{
+    cursor: pointer;
+}
+
+.dcnx:hover {
+    font-size: 17px;
+}

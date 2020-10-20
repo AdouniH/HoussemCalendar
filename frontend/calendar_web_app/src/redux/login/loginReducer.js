@@ -1,5 +1,6 @@
 import { CONNECT, DISCONNECT, LOAD } from './loginTypes'
 
+
 const initialState = {
   loading: true,
   connected: false,
