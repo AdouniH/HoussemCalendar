@@ -9,6 +9,7 @@ function NavBar() {
 
   const clicked = () => {
       dispatch(disconnect());
+      localStorage.removeItem('token')
   }
 
   return (
