@@ -1,0 +1,60 @@
+.logwindow{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black
+}
+
+.formLog{
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 20px;
+  height: 150px;
+  width: 400px;
+  text-align: center;
+}
+
+.formLog * {
+  margin-top: 25px;
+}
+
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  margin-top: 25px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.labelLog{
+    color: white;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #001a00;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.loading{
+    height: 40px;
+    width: 40px;
+}
+
+.err{
+    color: red;
+}

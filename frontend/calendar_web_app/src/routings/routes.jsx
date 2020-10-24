@@ -6,8 +6,8 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
-import Home from '../cmpts/home.jsx'
-import LoginPage from '../cmpts/login_page.jsx'
+import Home from '../cmpts/loginComponent/home.jsx'
+import LoginPage from '../cmpts/loginComponent/login_page.jsx'
 import {useSelector} from 'react-redux'
 
 

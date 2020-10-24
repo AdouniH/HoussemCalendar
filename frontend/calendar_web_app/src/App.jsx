@@ -9,6 +9,7 @@ import Routing from './routings/routes.jsx'
 function App() {
 
     const dispatch = useDispatch()
+
     useEffect(() => {
         dispatch(checkCnx());
     }, []);

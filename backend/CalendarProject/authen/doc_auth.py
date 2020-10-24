@@ -88,3 +88,23 @@ get_token_from_account = swagger_auto_schema(
         )
     }
 )
+
+check_token_from_account = swagger_auto_schema(
+    operation_summary="verifier si un token correspond à un account",
+    operation_authorization='',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        required=['toekn'],
+        properties={
+            'token': openapi.Schema(type=openapi.TYPE_STRING, title="le token key"),
+        }
+    ),
+    responses={
+        status.HTTP_200_OK: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'code': openapi.Schema(type=openapi.TYPE_STRING, title="le code de l'account")
+            }
+        )
+    }
+)

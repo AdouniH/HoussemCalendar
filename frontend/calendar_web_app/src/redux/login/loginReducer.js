@@ -4,7 +4,8 @@ import { CONNECT, DISCONNECT, LOAD } from './loginTypes'
 const initialState = {
   loading: true,
   connected: false,
-  key: null
+  key: null,
+  code: null
 }
 
 const loginReducer = (state = initialState, action) => {
@@ -13,13 +14,15 @@ const loginReducer = (state = initialState, action) => {
       ...state,
       loading: false,
       connected: true,
-      key: action.key
+      key: action.key,
+      code: action.code
     }
     case DISCONNECT: return {
       ...state,
       loading: false,
       connected: false,
-      key: null
+      key: null,
+      code: null
     }
     case LOAD: return {
       ...state,

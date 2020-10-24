@@ -22,10 +22,10 @@ class RegisterView(APIView):
     authentication_classes = [TokenAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, format=None):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+    # def get(self, request, format=None):
+    #     users = User.objects.all()
+    #     serializer = UserSerializer(users, many=True)
+    #     return Response(serializer.data)
 
     @doc_auth.register_new_user
     def post(self, request, format=None):
@@ -57,23 +57,23 @@ class GetToken(APIView):
 
 
 class AccountView(APIView):
-    def get(self, request, format=None):
-
-        accounts = Account.objects.all()
-        serializer = AccountSerializer(accounts, many=True)
-        accounts = []
-
-        for serializer_data in serializer.data:
-            context = {}
-            for key, value in serializer_data.items():
-                if key == 'user':
-                    context["username"] = value["username"]
-                    context["password"] = value["password"]
-                    continue
-                context[key] = value
-            accounts.append(context)
-
-        return Response(accounts)
+    # def get(self, request, format=None):
+    #
+    #     accounts = Account.objects.all()
+    #     serializer = AccountSerializer(accounts, many=True)
+    #     accounts = []
+    #
+    #     for serializer_data in serializer.data:
+    #         context = {}
+    #         for key, value in serializer_data.items():
+    #             if key == 'user':
+    #                 context["username"] = value["username"]
+    #                 context["password"] = value["password"]
+    #                 continue
+    #             context[key] = value
+    #         accounts.append(context)
+    #
+    #     return Response(accounts)
 
     @doc_auth.create_account
     def post(self, request, format=None):
@@ -93,7 +93,7 @@ class GetTokenFromAccount(APIView):
     @doc_auth.get_token_from_account
     def post(self, request, format=None):
         code = request.data["code"]
-
+        
         try:
             account = Account.objects.get(code=code)
         except ObjectDoesNotExist:
@@ -103,4 +103,20 @@ class GetTokenFromAccount(APIView):
             user = account.user
             token, created = Token.objects.get_or_create(user=user)
             return Response({"token": token.key}, status=status.HTTP_200_OK)
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CheckToken(APIView):
+    @doc_auth.check_token_from_account
+    def post(self, request, format=None):
+        tokenKey = request.data["token"]
+
+        try:
+            user = Token.objects.get(key=tokenKey).user
+            account = Account.objects.get(user=user)
+        except ObjectDoesNotExist:
+            account = None
+
+        if account:
+            return Response({"code": account.code}, status=status.HTTP_200_OK)
         return Response({}, status=status.HTTP_400_BAD_REQUEST)

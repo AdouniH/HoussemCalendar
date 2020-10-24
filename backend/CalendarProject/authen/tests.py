@@ -14,7 +14,7 @@ class TestRegisterView(APITestCase):
 
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
-    def test_create_account(self):
+    def test_create_user(self):
         """
         Tests des creations des des utilisateurs -> /auth
         """
@@ -33,8 +33,7 @@ class TestRegisterView(APITestCase):
 
         response = self.client.post(url, user1, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(list(response.data.keys()), ['token'])
-        self.assertGreaterEqual(len(response.data['token']), 2)
+        self.assertIsNotNone(response.data.get("token"))
         self.assertEqual(User.objects.count(), 2)
 
         response = self.client.post(url, user1, format='json')
@@ -141,3 +140,28 @@ class TestAccountGetTokenView(APITestCase):
         response = self.client.post(url, context, format='json')
 
         self.assertEqual(response.data["token"], self.tokenKey)
+
+
+class TestCheckTokenView(APITestCase):
+    def setUp(self):
+        user = User.objects.create(username="hello")
+        user.set_password("world")
+        user.save()
+        account = Account.objects.create(user=user, code="code_100")
+        account.save()
+        self.tokenKey = Token.objects.get_or_create(user=account.user)[0].key
+
+    def test_post(self):
+        """
+        -> /auth/check_token
+        """
+        url = reverse('check_token_from_account')
+
+        context = {"token": self.tokenKey}
+        response = self.client.post(url, context, format='json')
+
+        context1 = {"token": 'fdkgkdfjgkdfngjk'}
+        response1 = self.client.post(url, context1, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response1.status_code, status.HTTP_400_BAD_REQUEST)

@@ -1,0 +1,22 @@
+.deconnexion{
+    background-color: black;
+    height: 60px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dcnx{
+    color: white;
+    margin-right: 15px;
+}
+
+.dcnx:hover{
+    font-size: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.namec{
+  color: white;
+}

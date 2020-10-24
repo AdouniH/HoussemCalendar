@@ -25,8 +25,9 @@ SECRET_KEY = 'k$1s-89)dsl4fx7m%b47a&w+6#%#+#e6)t5e!%m)(ztklls4c3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'drf_yasg',
@@ -44,6 +46,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -134,7 +138,7 @@ SWAGGER_SETTINGS = {
                 'in': 'header'
           }
     },
-    'DEFAULT_INFO': 'CalendarProject.urls.yahoo',
+    'DEFAULT_INFO': 'CalendarProject.urls.ApiInfo',
     'DEFAULT_FIELD_INSPECTORS': [
         'drf_yasg.inspectors.CamelCaseJSONFilter',
         'drf_yasg.inspectors.InlineSerializerInspector',

@@ -9,7 +9,7 @@ export const checkCnx = () => {
     axios
       .post("http://localhost:8000/auth/check_token/", {token: tokenKey})
       .then(response => {
-          dispatch(connect(tokenKey));
+          dispatch(connect(tokenKey, response.data.code));
       })
       .catch(error => {
           dispatch(disconnect());
@@ -17,10 +17,11 @@ export const checkCnx = () => {
   }
 }
 
-export const connect = (key) => {
+export const connect = (key, code) => {
   return {
     type: CONNECT,
-    key: key
+    key: key,
+    code: code
   }
 }
 
